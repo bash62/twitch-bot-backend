@@ -1,0 +1,65 @@
+scalar JSON
+scalar Date
+
+type User {
+  # Example field (placeholder)
+
+  id: Int
+  twitch_id: Int
+  username: String
+  email: String
+  profile_image_url: String
+  description: String
+  view_count: Int
+  created_at: Date
+  config: JSON!
+  tokens: JSON!
+  role: Role!
+  channels: [Channel]
+}
+
+input CreateUserInput {
+  
+  twitch_id: Int!
+  username: String!
+  email: String!
+  profile_image_url: String!
+  description: String!
+  view_count: Int!
+  created_at: Date!
+  tokens: JSON!
+  config: JSON!
+  role: Role!
+
+}
+
+input UpdateUserInput {
+  id: Int!
+  username: String
+  config: JSON
+  role: Role
+  
+}
+
+input UpdateUserChannelInput{
+  userId: Int!
+  channelId: Int!
+}
+
+type Query {
+  users: [User]!
+  user(id: Int!): User
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  appendChannel(updateUserChannelInput:UpdateUserChannelInput!): User!
+  removeUser(id: Int!): User
+}
+
+enum Role {
+  USER
+  USER_PREMIUM
+  ADMIN
+}

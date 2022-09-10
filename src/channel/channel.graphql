@@ -1,0 +1,34 @@
+type Channel {
+  # Example field (placeholder)
+ 
+  id: Int!
+  channelName: String!
+  channelUrl: String
+  channelIsPremium: Boolean
+  users: [User]
+
+}
+
+input CreateChannelInput {
+  channelName: String!
+  channelUrl: String!
+  channelIsPremium: Boolean
+  userId: Int
+
+
+}
+
+input UpdateChannelInput {
+  id: Int!
+}
+
+type Query {
+  channels: [Channel]!
+  channel(id: Int!): Channel
+}
+
+type Mutation {
+  createChannel(createChannelInput: CreateChannelInput!): Channel!
+  updateChannel(updateChannelInput: UpdateChannelInput!): Channel!
+  removeChannel(id: Int!): Channel
+}

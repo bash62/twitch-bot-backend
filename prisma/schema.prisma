@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  twitch_id Int
+  username String
+  display_name String @default(" ")
+  email String @unique
+  created_at DateTime @default(now())
+  profile_image_url String @default("https://static-cdn.jtvnw.net/user-default-pictures-uv/ebb84563-db81-4b9c-8940-64ed33ccfc7b-profile_image-300x300.png")
+  description String @default(" ")
+  view_count Int @default(0)
+  config Json?
+  tokens Json
+  role Role @default(USER)
+  channels Channel[]
+
+}
+
+
+model Channel {
+  id Int @id @default(autoincrement())
+  channelName String
+  channelUrl String
+  channelIsPremium Boolean @default(false)
+  users User[]
+
+}
+
+enum Role {
+
+  USER
+  USER_PREMIUM
+  ADMIN
+
+}
