@@ -44,8 +44,9 @@ export class UpdateUserInput {
 }
 
 export class UpdateUserChannelInput {
-    twitch_id: number;
+    user_id: number;
     channel_id: number;
+    config?: Nullable<JSON>;
 }
 
 export class Channel {
@@ -53,7 +54,7 @@ export class Channel {
     channel_name: string;
     channel_url?: Nullable<string>;
     channel_premium?: Nullable<boolean>;
-    user?: Nullable<UsersOnChannels[]>;
+    user: UsersOnChannels[];
 }
 
 export abstract class IQuery {
@@ -63,7 +64,9 @@ export abstract class IQuery {
 
     abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
-    abstract user(id: number): Nullable<User> | Promise<Nullable<User>>;
+    abstract user(user_id: number): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract getAllUserChannels(user_id: number): UsersOnChannels[] | Promise<UsersOnChannels[]>;
 }
 
 export abstract class IMutation {
@@ -77,9 +80,11 @@ export abstract class IMutation {
 
     abstract updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
 
-    abstract appendChannel(updateUserChannelInput: UpdateUserChannelInput): User | Promise<User>;
+    abstract appendChannel(updateUserChannelInput: UpdateUserChannelInput): UsersOnChannels | Promise<UsersOnChannels>;
 
-    abstract removeUser(id: number): Nullable<User> | Promise<Nullable<User>>;
+    abstract removeUserOnChannel(updateUserChannelInput: UpdateUserChannelInput): UsersOnChannels | Promise<UsersOnChannels>;
+
+    abstract removeUser(user_id: number): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export class User {
@@ -93,7 +98,7 @@ export class User {
     created_at?: Nullable<Date>;
     tokens: JSON;
     role: Role;
-    channels?: Nullable<UsersOnChannels[]>;
+    channels: UsersOnChannels[];
 }
 
 export class UsersOnChannels {

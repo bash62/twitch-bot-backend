@@ -15,7 +15,7 @@ type User {
   created_at: Date
   tokens: JSON!
   role: Role!
-  channels: [UsersOnChannels!] 
+  channels: [UsersOnChannels!]! 
 }
 
 type UsersOnChannels {
@@ -50,20 +50,23 @@ input UpdateUserInput {
 }
 
 input UpdateUserChannelInput{
-  twitch_id: Int!
+  user_id: Int!
   channel_id: Int!
+  config: JSON
 }
 
 type Query {
   users: [User]!
-  user(id: Int!): User
+  user(user_id: Int!): User
+  getAllUserChannels(user_id: Int!): [UsersOnChannels!]!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  appendChannel(updateUserChannelInput:UpdateUserChannelInput!): User!
-  removeUser(id: Int!): User
+  appendChannel(updateUserChannelInput:UpdateUserChannelInput!): UsersOnChannels!
+  removeUserOnChannel(updateUserChannelInput:UpdateUserChannelInput!): UsersOnChannels!
+  removeUser(user_id: Int!): User
 }
 
 enum Role {

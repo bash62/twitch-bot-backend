@@ -6,7 +6,7 @@ type Channel {
   channel_name: String!
   channel_url: String
   channel_premium: Boolean
-  user: [UsersOnChannels!]  
+  user: [UsersOnChannels!]! 
 
 }
 

@@ -5,6 +5,8 @@ import {
   UpdateUserInput,
   UpdateUserChannelInput,
 } from "src/types/graphql";
+import { UserError } from "./UserError";
+
 //import { CreateUserInput } from './dto/create-user.input';
 //import { UpdateUserInput } from './dto/update-user.input';
 
@@ -23,8 +25,13 @@ export class UserResolver {
   }
 
   @Query("user")
-  findOne(@Args("id") id: number) {
+  findOne(@Args("user_id") id: number) {
     return this.userService.findOne(id);
+  }
+
+  @Query("getAllUserChannels")
+  findAllUsersOnChannel(@Args("user_id") user_id: number) {
+    return this.userService.findAllUsersOnChannel(user_id);
   }
 
   @Mutation("updateUser")
@@ -33,8 +40,20 @@ export class UserResolver {
   }
 
   @Mutation("removeUser")
-  remove(@Args("id") id: number) {
-    return this.userService.remove(id);
+  remove(@Args("user_id") user_id: number) {
+    return this.userService.remove(user_id);
+  }
+
+  @Mutation("removeUserOnChannel")
+  removeUserOnChannel(
+    @Args("updateUserChannelInput")
+    updateUserChannelInput: UpdateUserChannelInput
+  ) {
+    try {
+      return this.userService.removeUserOnChannel(updateUserChannelInput);
+    } catch (err) {
+      throw new UserError(err);
+    }
   }
 
   @Mutation("appendChannel")
@@ -42,6 +61,10 @@ export class UserResolver {
     @Args("updateUserChannelInput")
     updateUserChannelInput: UpdateUserChannelInput
   ) {
-    return this.userService.appendChannel(updateUserChannelInput);
+    try {
+      return this.userService.appendChannel(updateUserChannelInput);
+    } catch (err) {
+      throw new UserError(err);
+    }
   }
 }
