@@ -20,7 +20,7 @@ export class SessionSerializer extends PassportSerializer {
       console.log("serializeUser", user);
       const userDB = await this.prisma.user.upsert({
         where: {
-          id: Number(user.id),
+          twitch_id: Number(user.id),
         },
         update: {
           display_name: user.displayName,

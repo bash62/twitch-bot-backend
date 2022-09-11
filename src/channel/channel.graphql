@@ -1,19 +1,21 @@
+
 type Channel {
   # Example field (placeholder)
  
   id: Int!
-  channe_name: String!
+  channel_name: String!
   channel_url: String
   channel_premium: Boolean
-  User: [UsersOnChannels]
+  user: [UsersOnChannels!]  
 
 }
+
 
 input CreateChannelInput {
   channel_name: String!
   channel_url: String!
   channel_premium: Boolean
-  user_id: Int
+
 
 
 }

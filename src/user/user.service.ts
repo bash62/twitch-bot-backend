@@ -48,15 +48,8 @@ export class UserService {
     });
   }
 
-  async appendChannel(updateUserChannelInput: UpdateUserChannelInput) {
-    const channel = await this.prisma.channel
-      .findUnique({ where: { id: updateUserChannelInput.channel_id } })
-      .then();
-    if (channel === null) {
-      throw new HttpException(
-        "channelId DOES NOT EXISTS",
-        HttpStatus.NOT_FOUND
-      );
-    }
+  async appendChannel({ twitch_id, channel_id }: UpdateUserChannelInput) {
+    return;
+
   }
 }

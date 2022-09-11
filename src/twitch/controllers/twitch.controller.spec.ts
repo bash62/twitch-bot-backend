@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { TwitchController } from './twitch.controller';
+import { Test, TestingModule } from "@nestjs/testing";
+import { TwitchController } from "./twitch.controller";
 
-describe('TwitchController', () => {
+describe("TwitchController", () => {
   let controller: TwitchController;
 
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('TwitchController', () => {
     controller = module.get<TwitchController>(TwitchController);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 });

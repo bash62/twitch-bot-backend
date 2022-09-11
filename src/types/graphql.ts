@@ -15,14 +15,13 @@ export enum Role {
 }
 
 export class CreateChannelInput {
-    channelName: string;
-    channelUrl: string;
-    channelIsPremium?: Nullable<boolean>;
-    userId?: Nullable<number>;
+    channel_name: string;
+    channel_url: string;
+    channel_premium?: Nullable<boolean>;
 }
 
 export class UpdateChannelInput {
-    id: number;
+    channel_id: number;
 }
 
 export class CreateUserInput {
@@ -34,7 +33,6 @@ export class CreateUserInput {
     view_count: number;
     created_at: Date;
     tokens: JSON;
-    config: JSON;
     role: Role;
 }
 
@@ -46,16 +44,16 @@ export class UpdateUserInput {
 }
 
 export class UpdateUserChannelInput {
-    userId: number;
-    channelId: number;
+    twitch_id: number;
+    channel_id: number;
 }
 
 export class Channel {
     id: number;
-    channelName: string;
-    channelUrl?: Nullable<string>;
-    channelIsPremium?: Nullable<boolean>;
-    User?: Nullable<Nullable<UsersOnChannels>[]>;
+    channel_name: string;
+    channel_url?: Nullable<string>;
+    channel_premium?: Nullable<boolean>;
+    user?: Nullable<UsersOnChannels[]>;
 }
 
 export abstract class IQuery {
@@ -95,16 +93,17 @@ export class User {
     created_at?: Nullable<Date>;
     tokens: JSON;
     role: Role;
-    channels?: Nullable<Nullable<UsersOnChannels>[]>;
+    channels?: Nullable<UsersOnChannels[]>;
 }
 
 export class UsersOnChannels {
     user?: Nullable<User>;
-    user_id?: Nullable<number>;
     channel?: Nullable<Channel>;
+    user_id?: Nullable<number>;
     channel_id?: Nullable<number>;
     config?: Nullable<JSON>;
 }
 
 export type JSON = any;
+export type relation = any;
 type Nullable<T> = T | null;

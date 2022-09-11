@@ -1,8 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ChannelResolver } from './channel.resolver';
-import { ChannelService } from './channel.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { ChannelResolver } from "./channel.resolver";
+import { ChannelService } from "./channel.service";
 
-describe('ChannelResolver', () => {
+describe("ChannelResolver", () => {
   let resolver: ChannelResolver;
 
   beforeEach(async () => {
@@ -13,7 +13,7 @@ describe('ChannelResolver', () => {
     resolver = module.get<ChannelResolver>(ChannelResolver);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(resolver).toBeDefined();
   });
 });

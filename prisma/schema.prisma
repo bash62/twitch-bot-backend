@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id Int @id @default(autoincrement())
-  twitch_id Int
+  twitch_id Int @unique
   username String
   display_name String @default(" ")
   email String @unique
