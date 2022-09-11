@@ -55,7 +55,7 @@ export class Channel {
     channelName: string;
     channelUrl?: Nullable<string>;
     channelIsPremium?: Nullable<boolean>;
-    users?: Nullable<Nullable<User>[]>;
+    User?: Nullable<Nullable<UsersOnChannels>[]>;
 }
 
 export abstract class IQuery {
@@ -93,10 +93,17 @@ export class User {
     description?: Nullable<string>;
     view_count?: Nullable<number>;
     created_at?: Nullable<Date>;
-    config: JSON;
     tokens: JSON;
     role: Role;
-    channels?: Nullable<Nullable<Channel>[]>;
+    channels?: Nullable<Nullable<UsersOnChannels>[]>;
+}
+
+export class UsersOnChannels {
+    user?: Nullable<User>;
+    user_id?: Nullable<number>;
+    channel?: Nullable<Channel>;
+    channel_id?: Nullable<number>;
+    config?: Nullable<JSON>;
 }
 
 export type JSON = any;

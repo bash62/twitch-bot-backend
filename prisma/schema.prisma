@@ -20,21 +20,27 @@ model User {
   profile_image_url String @default("https://static-cdn.jtvnw.net/user-default-pictures-uv/ebb84563-db81-4b9c-8940-64ed33ccfc7b-profile_image-300x300.png")
   description String @default(" ")
   view_count Int @default(0)
-  config Json?
   tokens Json
   role Role @default(USER)
-  channels Channel[]
+  channels UsersOnChannels[]
 
 }
 
+model UsersOnChannels {
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int  
+  channel Channel @relation(fields: [channel_id], references: [id])
+  channel_id Int
+  config Json?
+  @@id([user_id,channel_id])
+}
 
 model Channel {
   id Int @id @default(autoincrement())
-  channelName String
-  channelUrl String
-  channelIsPremium Boolean @default(false)
-  users User[]
-
+  channel_name String
+  channel_url String
+  channel_premium Boolean @default(false)
+  users UsersOnChannels[]
 }
 
 enum Role {

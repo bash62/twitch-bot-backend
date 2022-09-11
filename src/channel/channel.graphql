@@ -2,24 +2,24 @@ type Channel {
   # Example field (placeholder)
  
   id: Int!
-  channelName: String!
-  channelUrl: String
-  channelIsPremium: Boolean
-  users: [User]
+  channe_name: String!
+  channel_url: String
+  channel_premium: Boolean
+  User: [UsersOnChannels]
 
 }
 
 input CreateChannelInput {
-  channelName: String!
-  channelUrl: String!
-  channelIsPremium: Boolean
-  userId: Int
+  channel_name: String!
+  channel_url: String!
+  channel_premium: Boolean
+  user_id: Int
 
 
 }
 
 input UpdateChannelInput {
-  id: Int!
+  channel_id: Int!
 }
 
 type Query {

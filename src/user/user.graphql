@@ -12,10 +12,17 @@ type User {
   description: String
   view_count: Int
   created_at: Date
-  config: JSON!
   tokens: JSON!
   role: Role!
-  channels: [Channel]
+  channels: [UsersOnChannels]
+}
+
+type UsersOnChannels {
+  user: User
+  user_id: Int
+  channel: Channel
+  channel_id: Int
+  config: JSON
 }
 
 input CreateUserInput {

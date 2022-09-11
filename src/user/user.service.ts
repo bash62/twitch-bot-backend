@@ -31,14 +31,14 @@ export class UserService {
   findOne(id: number) {
     return this.prisma.user.findUnique({
       where: { id },
-      select: { username: true, id: true, role: true, config: true },
+      select: { username: true, id: true, role: true },
     });
   }
 
   update(id: number, { username, config }: UpdateUserInput) {
     return this.prisma.user.update({
       where: { id },
-      data: { username, config },
+      data: { username },
     });
   }
 
@@ -50,7 +50,7 @@ export class UserService {
 
   async appendChannel(updateUserChannelInput: UpdateUserChannelInput) {
     const channel = await this.prisma.channel
-      .findUnique({ where: { id: updateUserChannelInput.channelId } })
+      .findUnique({ where: { id: updateUserChannelInput.channel_id } })
       .then();
     if (channel === null) {
       throw new HttpException(
@@ -58,15 +58,5 @@ export class UserService {
         HttpStatus.NOT_FOUND
       );
     }
-    return this.prisma.user.update({
-      where: { id: updateUserChannelInput.userId },
-      data: {
-        channels: {
-          connect: {
-            id: updateUserChannelInput.channelId,
-          },
-        },
-      },
-    });
   }
 }
