@@ -14,6 +14,7 @@ import { TwitchService } from "./twitch/services/twitch.service";
 import { TwitchModule } from "./twitch/twitch.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TwitchStrategy } from "./twitch/strategy/twitch.strategy";
+import { TwitchApiModule } from "./twitch-api/twitch-api.module";
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { TwitchStrategy } from "./twitch/strategy/twitch.strategy";
       envFilePath: ".env",
       isGlobal: true,
     }),
+    TwitchApiModule,
   ],
   controllers: [AppController, TwitchController],
   providers: [AppService, PrismaService, TwitchService, TwitchStrategy],

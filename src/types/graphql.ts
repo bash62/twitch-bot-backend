@@ -8,6 +8,17 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum ApiReturnCode {
+    RESPONSE_SUCESS = "RESPONSE_SUCESS",
+    REPONSE_MISSING_PARAMS = "REPONSE_MISSING_PARAMS",
+    RESPONSE_INTERNAL_ERROR = "RESPONSE_INTERNAL_ERROR"
+}
+
+export enum ApiRoute {
+    GET_CHANNEL_BY_ID = "GET_CHANNEL_BY_ID",
+    GE_USER_BY_ID = "GE_USER_BY_ID"
+}
+
 export enum Role {
     USER = "USER",
     USER_PREMIUM = "USER_PREMIUM",
@@ -22,6 +33,10 @@ export class CreateChannelInput {
 
 export class UpdateChannelInput {
     channel_id: number;
+}
+
+export class TwitchApiPayload {
+    url?: Nullable<string>;
 }
 
 export class CreateUserInput {
@@ -62,6 +77,8 @@ export abstract class IQuery {
 
     abstract channel(id: number): Nullable<Channel> | Promise<Nullable<Channel>>;
 
+    abstract getChannelInfoById(broadcaster_id?: Nullable<number>): Nullable<TwitchGetChannelResponse> | Promise<Nullable<TwitchGetChannelResponse>>;
+
     abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
     abstract user(user_id: number): Nullable<User> | Promise<Nullable<User>>;
@@ -85,6 +102,22 @@ export abstract class IMutation {
     abstract removeUserOnChannel(updateUserChannelInput: UpdateUserChannelInput): UsersOnChannels | Promise<UsersOnChannels>;
 
     abstract removeUser(user_id: number): Nullable<User> | Promise<Nullable<User>>;
+}
+
+export class TwitchApi {
+    api_endpoint?: Nullable<ApiRoute>;
+}
+
+export class TwitchGetChannelResponse {
+    users?: Nullable<JSON>;
+    broadcaster_id?: Nullable<string>;
+    broadcaster_login?: Nullable<string>;
+    broadcaster_name?: Nullable<string>;
+    game_name?: Nullable<string>;
+    game_id?: Nullable<string>;
+    broadcaster_language?: Nullable<string>;
+    title?: Nullable<string>;
+    delay?: Nullable<number>;
 }
 
 export class User {
