@@ -1,0 +1,41 @@
+scalar JSON
+
+type TwitchApi {
+    api_endpoint: ApiRoute,
+}
+
+
+input TwitchApiPayload {
+
+  url: String
+}
+enum ApiReturnCode {
+    RESPONSE_SUCESS, 	#Channel/Stream returned successfully
+    REPONSE_MISSING_PARAMS, 	#Missing Query Parameter
+    RESPONSE_INTERNAL_ERROR 	#Internal Server Error; Failed to get channel information
+}
+enum ApiRoute {
+  GET_CHANNEL_BY_ID,
+  GE_USER_BY_ID,
+}
+
+type TwitchGetChannelResponse {
+
+  users: JSON
+  broadcaster_id: 	String 	#Twitch User ID of this channel owner.
+  broadcaster_login: 	String 	#Broadcaster’s user login name.
+  broadcaster_name: 	String 	#Twitch user display name of this channel owner.
+  game_name: 	String 	#Name of the game being played on the channel.
+  game_id: 	String 	#Current game ID being played on the channel.
+  broadcaster_language: 	String 	#Language of the channel. A language value is either the ISO 639-1 two-letter code for a supported stream language or “other”.
+  title: String 	#Title of the stream.
+  delay: Int 	#Stream delay in seconds.
+
+}
+
+
+type Query {
+  getChannelInfoById(broadcaster_id: Int): TwitchGetChannelResponse
+
+}
+
