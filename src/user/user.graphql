@@ -50,7 +50,7 @@ input UpdateUserInput {
 }
 
 input UpdateUserChannelInput{
-  user_id: Int!
+  user_id: Int!  
   channel_id: Int!
   config: JSON
 }

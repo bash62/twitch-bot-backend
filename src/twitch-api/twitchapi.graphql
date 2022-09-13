@@ -4,6 +4,21 @@ type TwitchApi {
     api_endpoint: ApiRoute,
 }
 
+input TwitchApiOptions {
+  api_endpoint: String,
+  token_oauth: String,
+  broadcaster_id: Int!,
+  data: JSON
+}
+
+input TwitchConnectionPayload{
+  client_id: 	String!, 	#Your app’s registered client ID.
+  force_verify: 	Boolean!, 	#Set to true to force the user to re-authorize your app’s access to their resources. The default is false.
+  redirect_uri: 	String!, 	#Your app’s registered redirect URI. The access token is sent to this URI.
+  response_type: 	 	String! = "token", 	#Must be set to token.
+  scope: 	String! = "", 	#A space-delimited list of scopes. The APIs that you’re calling identify the scopes you must list. You must URL encode the list.
+  state: 	String, 	#Although optional, you are strongly encouraged to pass a state string to help prevent Cross-Site Request Forgery (CSRF) attacks. The server returns this string to you in your redirect URI (see the state parameter in the fragment portion of the URI). If this string doesn’t match the state string that you passed, ignore the response. The state string should be randomly generated and unique for each OAuth request.
+}
 
 input TwitchApiPayload {
 
@@ -14,10 +29,12 @@ enum ApiReturnCode {
     REPONSE_MISSING_PARAMS, 	#Missing Query Parameter
     RESPONSE_INTERNAL_ERROR 	#Internal Server Error; Failed to get channel information
 }
+
 enum ApiRoute {
-  GET_CHANNEL_BY_ID,
-  GE_USER_BY_ID,
+  GET_CHANNELS_BY_ID,
+  GET_USER_BY_ID,
 }
+
 
 type TwitchGetChannelResponse {
 

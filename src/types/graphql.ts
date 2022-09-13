@@ -15,8 +15,8 @@ export enum ApiReturnCode {
 }
 
 export enum ApiRoute {
-    GET_CHANNEL_BY_ID = "GET_CHANNEL_BY_ID",
-    GE_USER_BY_ID = "GE_USER_BY_ID"
+    GET_CHANNELS_BY_ID = "GET_CHANNELS_BY_ID",
+    GET_USER_BY_ID = "GET_USER_BY_ID"
 }
 
 export enum Role {
@@ -33,6 +33,22 @@ export class CreateChannelInput {
 
 export class UpdateChannelInput {
     channel_id: number;
+}
+
+export class TwitchApiOptions {
+    api_endpoint?: Nullable<string>;
+    token_oauth?: Nullable<string>;
+    broadcaster_id: number;
+    data?: Nullable<JSON>;
+}
+
+export class TwitchConnectionPayload {
+    client_id: string;
+    force_verify: boolean;
+    redirect_uri: string;
+    response_type: string;
+    scope: string;
+    state?: Nullable<string>;
 }
 
 export class TwitchApiPayload {
