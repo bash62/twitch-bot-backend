@@ -42,13 +42,10 @@ export class TwitchApiOptions {
     data?: Nullable<JSON>;
 }
 
-export class TwitchConnectionPayload {
-    client_id: string;
-    force_verify: boolean;
-    redirect_uri: string;
-    response_type: string;
-    scope: string;
-    state?: Nullable<string>;
+export class AccessTokenResponse {
+    access_token?: Nullable<string>;
+    refresh_token?: Nullable<string>;
+    expires_in?: Nullable<number>;
 }
 
 export class TwitchApiPayload {
@@ -122,6 +119,17 @@ export abstract class IMutation {
 
 export class TwitchApi {
     api_endpoint?: Nullable<ApiRoute>;
+}
+
+export class GetChannelInfoResponse {
+    broadcaster_id?: Nullable<string>;
+    broadcaster_login?: Nullable<string>;
+    broadcaster_name?: Nullable<string>;
+    broadcaster_language?: Nullable<string>;
+    game_id?: Nullable<string>;
+    game_name?: Nullable<string>;
+    title?: Nullable<string>;
+    delay?: Nullable<number>;
 }
 
 export class TwitchGetChannelResponse {
