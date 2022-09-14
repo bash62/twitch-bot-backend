@@ -17,9 +17,9 @@ export class TwitchApiService {
     this.twitchApiTokenHandler.getAccessToken();
   }
 
-  getChannelInfoById(
+  async getChannelInfoById(
     broadcaster_id: number,
-  ): Observable<GetChannelInfoResponse> {
+  ): Promise<GetChannelInfoResponse[]> {
     try {
       const logHeader = {
         Authorization: `Bearer ${
@@ -27,18 +27,20 @@ export class TwitchApiService {
         }`,
         "Client-Id": process.env.TWITCH_CLIENT_ID,
       };
-      const res = this.httpService
+      return await this.httpService
         .get("https://api.twitch.tv/helix/channels?broadcaster_id=26610234", {
           headers: logHeader,
         })
-    .pipe(
-      map((response) => response.data),
-      map((data) => {
-        //console.log(data.data[0]);
-        return data;
-      })
-    );
-      return res;
+        .pipe(
+          map((response) => response.data),
+          map((data) => {
+            
+            return data;
+            
+          })
+        ).toPromise().then((res) => {
+          return res;
+        });
     } catch (e) {
       console.log(e);
       return e;

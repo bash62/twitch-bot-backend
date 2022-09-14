@@ -16,7 +16,7 @@ input AccessTokenResponse {
   expires_in: Int,
 }
 
-type GetChannelInfoResponse {
+input GetChannelInfoResponse {
   
     broadcaster_id: String,
     broadcaster_login: String,

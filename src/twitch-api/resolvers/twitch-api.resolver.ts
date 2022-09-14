@@ -14,14 +14,16 @@ export class TwitchApiResolver {
   @Query("getChannelInfoById")
   getChannelInfoById(
     @Args("broadcaster_id") broadcaster_id: number
-  ): Subscription {
-    let responseInfo: GetChannelInfoResponse = {};
+  ): any {
+    const broadcasterArray: GetChannelInfoResponse[] = [];
+    
     return this.twitchApiService
       .getChannelInfoById(broadcaster_id)
-      .subscribe((res: GetChannelInfoResponse) => {
-        responseInfo = res;
-        console.log(responseInfo);
-        return res;
+      .then((res: any) => {
+        broadcasterArray.push(res.data);
+        
+        console.log(broadcasterArray[0]);
+        return ;
       });
   }
 }

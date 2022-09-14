@@ -48,6 +48,17 @@ export class AccessTokenResponse {
     expires_in?: Nullable<number>;
 }
 
+export class GetChannelInfoResponse {
+    broadcaster_id?: Nullable<string>;
+    broadcaster_login?: Nullable<string>;
+    broadcaster_name?: Nullable<string>;
+    broadcaster_language?: Nullable<string>;
+    game_id?: Nullable<string>;
+    game_name?: Nullable<string>;
+    title?: Nullable<string>;
+    delay?: Nullable<number>;
+}
+
 export class TwitchApiPayload {
     url?: Nullable<string>;
 }
@@ -119,17 +130,6 @@ export abstract class IMutation {
 
 export class TwitchApi {
     api_endpoint?: Nullable<ApiRoute>;
-}
-
-export class GetChannelInfoResponse {
-    broadcaster_id?: Nullable<string>;
-    broadcaster_login?: Nullable<string>;
-    broadcaster_name?: Nullable<string>;
-    broadcaster_language?: Nullable<string>;
-    game_id?: Nullable<string>;
-    game_name?: Nullable<string>;
-    title?: Nullable<string>;
-    delay?: Nullable<number>;
 }
 
 export class TwitchGetChannelResponse {
