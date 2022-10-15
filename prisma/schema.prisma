@@ -7,46 +7,77 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  twitch_id Int @unique
-  username String
-  display_name String @default(" ")
-  email String @unique
-  created_at DateTime @default(now())
-  profile_image_url String @default("https://static-cdn.jtvnw.net/user-default-pictures-uv/ebb84563-db81-4b9c-8940-64ed33ccfc7b-profile_image-300x300.png")
-  description String @default(" ")
-  view_count Int @default(0)
-  tokens Json
-  role Role @default(USER)
-  channels UsersOnChannels[]
-
+  id                Int               @id @default(autoincrement())
+  twitch_id         Int               @unique
+  username          String
+  display_name      String            @default(" ")
+  email             String            @unique
+  created_at        DateTime          @default(now())
+  profile_image_url String            @default("https://static-cdn.jtvnw.net/user-default-pictures-uv/ebb84563-db81-4b9c-8940-64ed33ccfc7b-profile_image-300x300.png")
+  description       String            @default(" ")
+  view_count        Int               @default(0)
+  tokens            Json
+  role              Role              @default(USER)
+  channels          UsersOnChannels[]
 }
 
 model UsersOnChannels {
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int  
-  channel Channel @relation(fields: [channel_id], references: [id])
+  user       User    @relation(fields: [user_id], references: [id])
+  user_id    Int
+  channel    Channel @relation(fields: [channel_id], references: [id])
   channel_id Int
-  config Json?
-  @@id([user_id,channel_id])
+
+  config_on_plugin ConfigOnPlugins[]
+
+  @@id([user_id, channel_id])
+}
+
+model ConfigOnPlugins {
+  config                    Config           @relation(fields: [config_id], references: [id])
+  config_id                 Int
+  plugin                    Plugin           @relation(fields: [plugin_id], references: [id])
+  plugin_id                 Int
+  UsersOnChannels           UsersOnChannels? @relation(fields: [usersOnChannelsUser_id, usersOnChannelsChannel_id], references: [user_id, channel_id])
+  usersOnChannelsUser_id    Int?
+  usersOnChannelsChannel_id Int?
+
+  @@id([config_id, plugin_id])
+}
+
+model Config {
+  id                Int               @id @default(autoincrement())
+  name              String
+  plugin_config     Json              @default("{}")
+  config_on_plugins ConfigOnPlugins[]
+}
+
+model Plugin {
+  id                Int               @id @default(autoincrement())
+  name              String
+  description       String
+  config_on_plugins ConfigOnPlugins[]
 }
 
 model Channel {
-  id Int @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
+  twitch_id    Int    @unique
   channel_name String
-  channel_url String
-  channel_premium Boolean @default(false)
-  users UsersOnChannels[]
+  channel_url  String
+
+  display_name      String            @default(" ")
+  profile_image_url String            @default("https://static-cdn.jtvnw.net/user-default-pictures-uv/ebb84563-db81-4b9c-8940-64ed33ccfc7b-profile_image-300x300.png")
+  description       String            @default(" ")
+  view_count        Int               @default(0)
+  channel_premium   Boolean           @default(false)
+  users_on_channels UsersOnChannels[]
 }
 
 enum Role {
-
   USER
   USER_PREMIUM
   ADMIN
-
 }

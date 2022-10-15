@@ -3,10 +3,11 @@ type Channel {
   # Example field (placeholder)
  
   id: Int!
+  twitch_id: Int
   channel_name: String!
   channel_url: String
   channel_premium: Boolean
-  user: [UsersOnChannels!]! 
+  user: [UsersOnChannels!]
 
 }
 
@@ -15,6 +16,7 @@ input CreateChannelInput {
   channel_name: String!
   channel_url: String!
   channel_premium: Boolean
+  twitch_id: Int!
 
 
 

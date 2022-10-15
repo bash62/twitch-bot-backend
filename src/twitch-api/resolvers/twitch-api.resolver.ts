@@ -1,6 +1,12 @@
 import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
 import { TwitchApiService } from "../services/twitch-api.service";
-import { GetChannelInfoResponse, TwitchApiOptions } from "src/types/graphql";
+import {
+  BroadCasterIds,
+  GetChannelInfoResponse,
+  TwitchApiOptions,
+  TwitchGetUserResponse,
+  UserIds,
+} from "src/types/graphql";
 import { TwitchApiTokenHandler } from "src/utils/TwitchApiTokenHandler";
 import { Observable, map, Subscription } from "rxjs";
 
@@ -12,18 +18,17 @@ export class TwitchApiResolver {
   ) {}
 
   @Query("getChannelInfoById")
-  getChannelInfoById(
-    @Args("broadcaster_id") broadcaster_id: number
-  ): any {
-    const broadcasterArray: GetChannelInfoResponse[] = [];
-    
-    return this.twitchApiService
-      .getChannelInfoById(broadcaster_id)
-      .then((res: any) => {
-        broadcasterArray.push(res.data);
-        
-        console.log(broadcasterArray[0]);
-        return ;
-      });
+  async getChannelInfoById(
+    @Args("broadcaster_ids") broadcaster_ids: BroadCasterIds
+  ): Promise<GetChannelInfoResponse> {
+    return this.twitchApiService.getChannelInfoById(broadcaster_ids);
+  }
+  // @Query("getChannelInfoById")
+  //Fetch user info by an array id or array username
+  @Query("getUserInfoByIdOrUsername")
+  async getUserInfoByIdOrUsername(
+    @Args("userIds") getUserPayload: UserIds
+  ): Promise<TwitchGetUserResponse> {
+    return this.twitchApiService.getUserInfoByIdOrUsername(getUserPayload);
   }
 }

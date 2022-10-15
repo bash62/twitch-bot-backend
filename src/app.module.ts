@@ -12,9 +12,11 @@ import { ChannelModule } from "./channel/channel.module";
 import { TwitchController } from "./twitch/controllers/twitch.controller";
 import { TwitchService } from "./twitch/services/twitch.service";
 import { TwitchModule } from "./twitch/twitch.module";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 import { TwitchStrategy } from "./twitch/strategy/twitch.strategy";
 import { TwitchApiModule } from "./twitch-api/twitch-api.module";
+import { ConfigChannelService } from "./config/config.service";
+import { ConfigChannelResolver } from "./config/config-channel.resolver";
 
 @Module({
   imports: [
@@ -40,6 +42,13 @@ import { TwitchApiModule } from "./twitch-api/twitch-api.module";
     TwitchApiModule,
   ],
   controllers: [AppController, TwitchController],
-  providers: [AppService, PrismaService, TwitchService, TwitchStrategy],
+  providers: [
+    AppService,
+    PrismaService,
+    TwitchService,
+    TwitchStrategy,
+    ConfigChannelService,
+    ConfigChannelResolver,
+  ],
 })
 export class AppModule {}

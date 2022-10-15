@@ -60,5 +60,23 @@ export class TwitchApiTokenHandler {
     }
   }
 
-  
+  //create a string made from an array
+  createStringFromArray(array: any[], paramName: string): string {
+    console.log(array === null ? true : false);
+    if (array === null) return "";
+    let str = "";
+    array.forEach((element) => {
+      str += `${paramName}=${element}&`;
+    });
+    console.log(str);
+    return str;
+  }
+
+  //getHeaders
+  getHeaders(): any {
+    return {
+      Authorization: `Bearer ${this._accessToken.access_token}`,
+      "Client-Id": process.env.TWITCH_CLIENT_ID,
+    };
+  }
 }

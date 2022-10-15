@@ -29,6 +29,7 @@ export class CreateChannelInput {
     channel_name: string;
     channel_url: string;
     channel_premium?: Nullable<boolean>;
+    twitch_id: number;
 }
 
 export class UpdateChannelInput {
@@ -63,6 +64,15 @@ export class TwitchApiPayload {
     url?: Nullable<string>;
 }
 
+export class BroadCasterIds {
+    broadcaster_id?: Nullable<Nullable<number>[]>;
+}
+
+export class UserIds {
+    twitch_id?: Nullable<Nullable<number>[]>;
+    login_name?: Nullable<Nullable<string>[]>;
+}
+
 export class CreateUserInput {
     twitch_id: number;
     username: string;
@@ -78,7 +88,6 @@ export class CreateUserInput {
 export class UpdateUserInput {
     id: number;
     username?: Nullable<string>;
-    config?: Nullable<JSON>;
     role?: Nullable<Role>;
 }
 
@@ -90,10 +99,11 @@ export class UpdateUserChannelInput {
 
 export class Channel {
     id: number;
+    twitch_id?: Nullable<number>;
     channel_name: string;
     channel_url?: Nullable<string>;
     channel_premium?: Nullable<boolean>;
-    user: UsersOnChannels[];
+    user?: Nullable<UsersOnChannels[]>;
 }
 
 export abstract class IQuery {
@@ -101,7 +111,9 @@ export abstract class IQuery {
 
     abstract channel(id: number): Nullable<Channel> | Promise<Nullable<Channel>>;
 
-    abstract getChannelInfoById(broadcaster_id?: Nullable<number>): Nullable<TwitchGetChannelResponse> | Promise<Nullable<TwitchGetChannelResponse>>;
+    abstract getChannelInfoById(broadcaster_ids?: Nullable<BroadCasterIds>): Nullable<Nullable<TwitchGetChannelResponse>[]> | Promise<Nullable<Nullable<TwitchGetChannelResponse>[]>>;
+
+    abstract getUserInfoByIdOrUsername(userIds?: Nullable<UserIds>): Nullable<Nullable<TwitchGetUserResponse>[]> | Promise<Nullable<Nullable<TwitchGetUserResponse>[]>>;
 
     abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
@@ -128,12 +140,37 @@ export abstract class IMutation {
     abstract removeUser(user_id: number): Nullable<User> | Promise<Nullable<User>>;
 }
 
+export class Config {
+    id?: Nullable<number>;
+    name?: Nullable<string>;
+    plugins: Plugin[];
+    plugin_config?: Nullable<JSON>;
+}
+
+export class UsersOnPlugins {
+    id?: Nullable<number>;
+    user: User;
+    plugin: Plugin;
+    config: Config;
+}
+
+export class Plugin {
+    id?: Nullable<number>;
+    name?: Nullable<string>;
+    description?: Nullable<string>;
+}
+
+export class CreateConfigChannelInput {
+    name: string;
+    plugins: number[];
+    plugin_config?: Nullable<JSON>;
+}
+
 export class TwitchApi {
     api_endpoint?: Nullable<ApiRoute>;
 }
 
 export class TwitchGetChannelResponse {
-    users?: Nullable<JSON>;
     broadcaster_id?: Nullable<string>;
     broadcaster_login?: Nullable<string>;
     broadcaster_name?: Nullable<string>;
@@ -142,6 +179,20 @@ export class TwitchGetChannelResponse {
     broadcaster_language?: Nullable<string>;
     title?: Nullable<string>;
     delay?: Nullable<number>;
+}
+
+export class TwitchGetUserResponse {
+    id?: Nullable<string>;
+    login?: Nullable<string>;
+    display_name?: Nullable<string>;
+    type?: Nullable<string>;
+    broadcaster_type?: Nullable<string>;
+    description?: Nullable<string>;
+    profile_image_url?: Nullable<string>;
+    offline_image_url?: Nullable<string>;
+    view_count?: Nullable<number>;
+    email?: Nullable<string>;
+    created_at?: Nullable<Date>;
 }
 
 export class User {
@@ -155,7 +206,7 @@ export class User {
     created_at?: Nullable<Date>;
     tokens: JSON;
     role: Role;
-    channels: UsersOnChannels[];
+    channels?: Nullable<Nullable<UsersOnChannels>[]>;
 }
 
 export class UsersOnChannels {
@@ -163,7 +214,7 @@ export class UsersOnChannels {
     channel?: Nullable<Channel>;
     user_id?: Nullable<number>;
     channel_id?: Nullable<number>;
-    config?: Nullable<JSON>;
+    config?: Nullable<Nullable<UsersOnPlugins>[]>;
 }
 
 export type JSON = any;

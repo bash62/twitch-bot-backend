@@ -7,9 +7,7 @@ import {
   UpdateUserInput,
   UpdateUserChannelInput,
 } from "src/types/graphql";
-
-//import { CreateUserInput } from './dto/create-user.input';
-//import { UpdateUserInput } from './dto/update-user.input';
+import { ThisExpression } from "ts-morph";
 
 @Injectable()
 export class UserService {
@@ -46,7 +44,7 @@ export class UserService {
     });
   }
 
-  update(id: number, { username, config }: UpdateUserInput) {
+  update(id: number, { username }: UpdateUserInput) {
     return this.prisma.user.update({
       where: { id },
       data: { username },
@@ -82,9 +80,10 @@ export class UserService {
         data: {
           channel_id: channel_id,
           user_id: user_id,
-          config: {
-            premium: false,
-          },
+        },
+        include: {
+          channel: true,
+          user: true,
         },
       });
     } catch (e) {
@@ -93,6 +92,7 @@ export class UserService {
         message: "Something went wrong. ",
       };
       errors.code = e.code;
+      console.log(e);
       throw errors;
     }
   }

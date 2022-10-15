@@ -43,10 +43,15 @@ enum ApiRoute {
   GET_USER_BY_ID,
 }
 
-
+input BroadCasterIds {
+  broadcaster_id: [Int]
+}
+input UserIds {
+  twitch_id: [Int]
+  login_name: [String]
+}
 type TwitchGetChannelResponse {
 
-  users: JSON
   broadcaster_id: 	String 	#Twitch User ID of this channel owner.
   broadcaster_login: 	String 	#Broadcaster’s user login name.
   broadcaster_name: 	String 	#Twitch user display name of this channel owner.
@@ -58,9 +63,23 @@ type TwitchGetChannelResponse {
 
 }
 
+type TwitchGetUserResponse {
+  id: String
+  login: String
+  display_name: String
+  type: String
+  broadcaster_type: String
+  description: String
+  profile_image_url: String
+  offline_image_url: String
+  view_count: Int
+  email: String,
+  created_at: Date
+}
 
 type Query {
-  getChannelInfoById(broadcaster_id: Int): TwitchGetChannelResponse
+  getChannelInfoById(broadcaster_ids: BroadCasterIds): [TwitchGetChannelResponse]
+  getUserInfoByIdOrUsername(userIds: UserIds): [TwitchGetUserResponse]
 
 }
 

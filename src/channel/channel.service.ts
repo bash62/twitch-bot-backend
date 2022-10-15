@@ -11,6 +11,7 @@ export class ChannelService {
       data: {
         channel_name: createChannelInput.channel_name,
         channel_url: createChannelInput.channel_url,
+        twitch_id: createChannelInput.twitch_id,
       },
     });
   }

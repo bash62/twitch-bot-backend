@@ -3,7 +3,6 @@ scalar Date
 scalar relation
 
 type User {
-  # Example field (placeholder)
 
   id: Int
   twitch_id: Int
@@ -15,15 +14,19 @@ type User {
   created_at: Date
   tokens: JSON!
   role: Role!
-  channels: [UsersOnChannels!]! 
+  channels: [UsersOnChannels] 
 }
+
+
+
 
 type UsersOnChannels {
   user: User
   channel: Channel
   user_id: Int
-  channel_id: Int
-  config: JSON
+  channel_id: Int 
+  config: [UsersOnPlugins]
+
 }
 
 input CreateUserInput {
@@ -44,7 +47,6 @@ input CreateUserInput {
 input UpdateUserInput {
   id: Int!
   username: String
-  config: JSON
   role: Role
   
 }

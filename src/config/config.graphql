@@ -1,0 +1,30 @@
+
+
+type Config {
+  id: Int
+  name: String,
+  plugins: [Plugin!]!,
+  plugin_config: JSON
+
+},
+
+type UsersOnPlugins {
+  id: Int
+  user: User!
+  plugin: Plugin!
+  config: Config!
+}
+
+
+type Plugin {
+  id: Int
+  name: String
+  description: String
+
+  }
+
+type CreateConfigChannelInput {
+  name: String!
+  plugins: [Int!]!
+  plugin_config: JSON
+}

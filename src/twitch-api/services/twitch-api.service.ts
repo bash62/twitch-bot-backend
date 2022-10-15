@@ -1,13 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
-import {
-  GetChannelInfoResponse,
-  TwitchApiOptions,
-  TwitchGetChannelResponse,
-} from "src/types/graphql";
+import { BroadCasterIds, UserIds } from "src/types/graphql";
 import { map, Observable } from "rxjs";
 import { TwitchApiTokenHandler } from "src/utils/TwitchApiTokenHandler";
-
+import { twitchUrl } from "../typings/TwitchUrl";
 @Injectable()
 export class TwitchApiService {
   constructor(
@@ -17,30 +13,57 @@ export class TwitchApiService {
     this.twitchApiTokenHandler.getAccessToken();
   }
 
-  async getChannelInfoById(
-    broadcaster_id: number,
-  ): Promise<GetChannelInfoResponse[]> {
+  getChannelInfoById(broadcaster_ids: BroadCasterIds) {
     try {
-      const logHeader = {
-        Authorization: `Bearer ${
-          this.twitchApiTokenHandler.getAccessToken().access_token
-        }`,
-        "Client-Id": process.env.TWITCH_CLIENT_ID,
-      };
-      return await this.httpService
-        .get("https://api.twitch.tv/helix/channels?broadcaster_id=26610234", {
-          headers: logHeader,
-        })
+      return this.httpService
+        .get(
+          twitchUrl.getChannelInfoById +
+            this.twitchApiTokenHandler.createStringFromArray(
+              broadcaster_ids.broadcaster_id,
+              "broadcaster_id"
+            ),
+          {
+            headers: this.twitchApiTokenHandler.getHeaders(),
+          }
+        )
         .pipe(
-          map((response) => response.data),
-          map((data) => {
-            
-            return data;
-            
+          map((response) => {
+            return response.data.data;
           })
-        ).toPromise().then((res) => {
-          return res;
-        });
+        );
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
+  }
+
+  getUserInfoByIdOrUsername(broadcaster_ids: UserIds) {
+    try {
+      console.log(broadcaster_ids);
+      if (broadcaster_ids.twitch_id && broadcaster_ids.login_name === null) {
+        throw new Error("twitch_id and login_name are null");
+      }
+      return this.httpService
+        .get(
+          twitchUrl.getUserByUsername +
+            this.twitchApiTokenHandler.createStringFromArray(
+              broadcaster_ids.twitch_id,
+              "id"
+            ) +
+            this.twitchApiTokenHandler.createStringFromArray(
+              broadcaster_ids.login_name,
+              "login"
+            ),
+          {
+            headers: this.twitchApiTokenHandler.getHeaders(),
+          }
+        )
+        .pipe(
+          map((response) => {
+            console.log(response.data);
+            return response.data.data;
+          })
+        );
     } catch (e) {
       console.log(e);
       return e;
