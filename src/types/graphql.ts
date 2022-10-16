@@ -36,6 +36,22 @@ export class UpdateChannelInput {
     channel_id: number;
 }
 
+export class CreateConfigInput {
+    name: string;
+}
+
+export class CreatePluginInput {
+    name: string;
+    description: string;
+    plugin_config?: Nullable<JSON>;
+}
+
+export class CreateConfigOnPluginInput {
+    user_on_channel_id: number;
+    plugin_id: number;
+    config_id: number;
+}
+
 export class TwitchApiOptions {
     api_endpoint?: Nullable<string>;
     token_oauth?: Nullable<string>;
@@ -129,6 +145,12 @@ export abstract class IMutation {
 
     abstract removeChannel(id: number): Nullable<Channel> | Promise<Nullable<Channel>>;
 
+    abstract createConfig(createConfigInput: CreateConfigInput): Nullable<Config> | Promise<Nullable<Config>>;
+
+    abstract createPlugin(createPluginInput: CreatePluginInput): Nullable<Plugin> | Promise<Nullable<Plugin>>;
+
+    abstract createConfigOnPlugin(createConfigOnPluginInput: CreateConfigOnPluginInput): Nullable<UsersOnPlugins> | Promise<Nullable<UsersOnPlugins>>;
+
     abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
 
     abstract updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
@@ -142,28 +164,22 @@ export abstract class IMutation {
 
 export class Config {
     id?: Nullable<number>;
-    name?: Nullable<string>;
-    plugins: Plugin[];
-    plugin_config?: Nullable<JSON>;
-}
-
-export class UsersOnPlugins {
-    id?: Nullable<number>;
-    user: User;
-    plugin: Plugin;
-    config: Config;
+    name: string;
+    configOnPlugins?: Nullable<Nullable<UsersOnPlugins>[]>;
 }
 
 export class Plugin {
     id?: Nullable<number>;
-    name?: Nullable<string>;
-    description?: Nullable<string>;
+    name: string;
+    description: string;
+    plugin_config?: Nullable<JSON>;
 }
 
-export class CreateConfigChannelInput {
-    name: string;
-    plugins: number[];
-    plugin_config?: Nullable<JSON>;
+export class UsersOnPlugins {
+    config_id?: Nullable<number>;
+    plugin_id?: Nullable<number>;
+    plugin: Plugin;
+    config: Config;
 }
 
 export class TwitchApi {

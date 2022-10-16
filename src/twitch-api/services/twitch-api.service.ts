@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Get, Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import { BroadCasterIds, UserIds } from "src/types/graphql";
 import { map, Observable } from "rxjs";
@@ -10,6 +10,7 @@ export class TwitchApiService {
     private readonly httpService: HttpService,
     private readonly twitchApiTokenHandler: TwitchApiTokenHandler
   ) {
+    
     this.twitchApiTokenHandler.getAccessToken();
   }
 
@@ -69,4 +70,8 @@ export class TwitchApiService {
       return e;
     }
   }
+
+  
+
+
 }

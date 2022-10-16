@@ -15,8 +15,8 @@ import { TwitchModule } from "./twitch/twitch.module";
 import { ConfigModule } from "@nestjs/config";
 import { TwitchStrategy } from "./twitch/strategy/twitch.strategy";
 import { TwitchApiModule } from "./twitch-api/twitch-api.module";
-import { ConfigChannelService } from "./config/config.service";
-import { ConfigChannelResolver } from "./config/config-channel.resolver";
+import { ConfigChannelService } from "./config/configChannel.service";
+import { ConfigChannelResolver } from "./config/configChannel.resolver";
 
 @Module({
   imports: [
@@ -37,7 +37,7 @@ import { ConfigChannelResolver } from "./config/config-channel.resolver";
     TwitchModule,
     ConfigModule.forRoot({
       envFilePath: ".env",
-      isGlobal: true,
+      isGlobal: false,
     }),
     TwitchApiModule,
   ],

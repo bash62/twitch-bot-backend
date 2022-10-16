@@ -26,6 +26,7 @@ model User {
 }
 
 model UsersOnChannels {
+  id        Int      @unique @default(autoincrement())
   user       User    @relation(fields: [user_id], references: [id])
   user_id    Int
   channel    Channel @relation(fields: [channel_id], references: [id])
@@ -41,17 +42,14 @@ model ConfigOnPlugins {
   config_id                 Int
   plugin                    Plugin           @relation(fields: [plugin_id], references: [id])
   plugin_id                 Int
-  UsersOnChannels           UsersOnChannels? @relation(fields: [usersOnChannelsUser_id, usersOnChannelsChannel_id], references: [user_id, channel_id])
-  usersOnChannelsUser_id    Int?
-  usersOnChannelsChannel_id Int?
-
+  user_on_channel_id      Int  @default(autoincrement())
+  user_on_channel         UsersOnChannels  @relation(fields: [user_on_channel_id], references: [id])
   @@id([config_id, plugin_id])
 }
 
 model Config {
   id                Int               @id @default(autoincrement())
   name              String
-  plugin_config     Json              @default("{}")
   config_on_plugins ConfigOnPlugins[]
 }
 
@@ -59,6 +57,7 @@ model Plugin {
   id                Int               @id @default(autoincrement())
   name              String
   description       String
+  plugin_config     Json              @default("{}")
   config_on_plugins ConfigOnPlugins[]
 }
 

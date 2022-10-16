@@ -2,29 +2,48 @@
 
 type Config {
   id: Int
-  name: String,
-  plugins: [Plugin!]!,
-  plugin_config: JSON
+  name: String!
+  configOnPlugins: [UsersOnPlugins]
 
-},
+}
+
+type Plugin {
+  id: Int
+  name: String!
+  description: String!
+  plugin_config: JSON
+}
 
 type UsersOnPlugins {
-  id: Int
-  user: User!
+
+  config_id: Int
+  plugin_id: Int
   plugin: Plugin!
   config: Config!
 }
 
-
-type Plugin {
-  id: Int
-  name: String
-  description: String
-
-  }
-
-type CreateConfigChannelInput {
+input CreateConfigInput {
   name: String!
-  plugins: [Int!]!
+}
+
+input CreatePluginInput{
+  name: String!
+  description: String!
   plugin_config: JSON
+}
+
+input CreateConfigOnPluginInput{
+  user_on_channel_id: Int!
+  plugin_id: Int!
+  config_id: Int!
+
+}
+
+
+
+type Mutation {
+  createConfig(createConfigInput: CreateConfigInput!): Config
+  createPlugin(createPluginInput: CreatePluginInput!): Plugin
+  createConfigOnPlugin(createConfigOnPluginInput: CreateConfigOnPluginInput!): UsersOnPlugins
+ 
 }

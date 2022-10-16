@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Get, Injectable, Req } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import { AccessTokenResponse } from "src/types/graphql";
 import { map } from "rxjs";
-
+import { Request } from "express";
 @Injectable()
 export class TwitchApiTokenHandler {
   private _accessToken: AccessTokenResponse;
@@ -17,6 +17,7 @@ export class TwitchApiTokenHandler {
     });
   }
   //@getAccessToken is a getter method that returns the access token set a timeout to refresh the token
+  
   getAccessToken(): AccessTokenResponse {
     try {
       if (this._accessToken.access_token === "") {

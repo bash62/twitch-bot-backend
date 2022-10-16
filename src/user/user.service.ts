@@ -1,13 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { Prisma, UsersOnChannels } from "@prisma/client";
-import { UserInputError } from "apollo-server-express";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import {
   CreateUserInput,
   UpdateUserInput,
   UpdateUserChannelInput,
 } from "src/types/graphql";
-import { ThisExpression } from "ts-morph";
 
 @Injectable()
 export class UserService {
