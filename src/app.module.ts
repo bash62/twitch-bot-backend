@@ -9,43 +9,45 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { PrismaService } from "./prisma/prisma.service";
 import { UserModule } from "./user/user.module";
 import { ChannelModule } from "./channel/channel.module";
-import { TwitchController } from "./twitch/controllers/twitch.controller";
-import { TwitchService } from "./twitch/services/twitch.service";
-import { TwitchModule } from "./twitch/twitch.module";
+import { AuthController } from "./twitch/controllers/auth.controller";
+import { AuthService } from "./twitch/services/auth.service";
+import { AuthModule } from "./twitch/auth.module";
 import { ConfigModule } from "@nestjs/config";
 import { TwitchStrategy } from "./twitch/strategy/twitch.strategy";
 import { TwitchApiModule } from "./twitch-api/twitch-api.module";
 import { ConfigChannelService } from "./config/configChannel.service";
 import { ConfigChannelResolver } from "./config/configChannel.resolver";
+import { ReturnStatement } from "ts-morph";
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
-      debug: false,
+      debug: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault],
       typePaths: ["./**/*.graphql"],
       definitions: {
         path: join(process.cwd(), "src/types/graphql.ts"),
         outputAs: "class",
       },
+      context: ({ req }) => ({ req }),
     }),
     PrismaModule,
     UserModule,
     ChannelModule,
-    TwitchModule,
+    AuthModule,
     ConfigModule.forRoot({
       envFilePath: ".env",
       isGlobal: false,
     }),
     TwitchApiModule,
   ],
-  controllers: [AppController, TwitchController],
+  controllers: [AppController, AuthController],
   providers: [
     AppService,
     PrismaService,
-    TwitchService,
+    AuthService,
     TwitchStrategy,
     ConfigChannelService,
     ConfigChannelResolver,

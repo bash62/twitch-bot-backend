@@ -9,6 +9,8 @@ import {
 } from "src/types/graphql";
 import { TwitchApiTokenHandler } from "src/utils/TwitchApiTokenHandler";
 import { Observable, map, Subscription } from "rxjs";
+import { JwtAuthGuard } from "src/twitch/guards/jwt-auth.guard";
+import { UseGuards } from "@nestjs/common";
 
 @Resolver("TwitchApi")
 export class TwitchApiResolver {
@@ -25,6 +27,7 @@ export class TwitchApiResolver {
   }
   // @Query("getChannelInfoById")
   //Fetch user info by an array id or array username
+  @UseGuards(JwtAuthGuard)
   @Query("getUserInfoByIdOrUsername")
   async getUserInfoByIdOrUsername(
     @Args("userIds") getUserPayload: UserIds

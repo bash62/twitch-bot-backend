@@ -17,7 +17,7 @@ export class TwitchApiTokenHandler {
     });
   }
   //@getAccessToken is a getter method that returns the access token set a timeout to refresh the token
-  
+
   getAccessToken(): AccessTokenResponse {
     try {
       if (this._accessToken.access_token === "") {

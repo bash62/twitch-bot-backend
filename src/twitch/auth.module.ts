@@ -2,11 +2,13 @@ import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { SessionSerializer } from "./utils/SessionSerializer";
 import { TwitchGuard } from "./guards/twitch.guard";
-import { TwitchService } from "./services/twitch.service";
+import { AuthService } from "./services/auth.service";
 import { TwitchStrategy } from "./strategy/twitch.strategy";
+import { JwtStrategy } from "./strategy/jwt.strategy";
 
 @Module({
-  providers: [TwitchService, TwitchStrategy, SessionSerializer],
+  providers: [AuthService, TwitchStrategy, SessionSerializer, JwtStrategy],
   imports: [PassportModule],
+
 })
-export class TwitchModule {}
+export class AuthModule {}
